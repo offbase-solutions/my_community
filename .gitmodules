@@ -1,0 +1,3 @@
+[submodule "assets/docs"]
+	path = assets/docs
+	url = https://github.com/offbase-solutions/stakify-codegen-docs.git

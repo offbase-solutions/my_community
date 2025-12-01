@@ -23,4 +23,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/docs/RULES/
+    - assets/docs/PDG/
+    - assets/docs/VLG/
+    - assets/docs/SLG/
 
