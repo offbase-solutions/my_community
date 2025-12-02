@@ -1,0 +1,234 @@
+---
+workflow_id: stakify-phase-2-step-4
+workflow_name: "Generate FOUNDATIONAL Product Documentation"
+phase: documentation
+step: 4
+total_steps: 13
+version: "5.0-agent"
+modes:
+  autonomous: true
+  human_in_loop: true
+duration_estimate: "2-4 hours"
+detailed_workflow_folder: "WORKFLOWS/DIRECT-APP-WORKFLOW/ANTIGRAVITY-WORKFLOWS/STEPS"
+verification_script_folder: "scripts"
+
+references:
+  detailed_workflow: "phase-2-step-4.md"
+  verification_script: "02-validate-prod-docs.sh"
+  documentation:
+    - "PDG-PRODUCT-DOC-TEMPLATE-PART1.md"
+    - "PDG-PRODUCT-DOC-TEMPLATE-PART2.md"
+    - "RULES-ARCHITECTURE.md"
+    - "RULES-PROJECT-STRUCTURE.md"
+
+---
+
+# Stakify Workflow 4: Generate Product Documentation
+
+## AI Agent Configuration
+
+### Operation Mode
+
+```yaml
+execution_mode: ${MODE}  # autonomous | human_in_loop
+checkpoints:
+  before_execution: ${MODE == 'human_in_loop'}
+  after_each_doc: true  # Review each of 5 PROD-DOC files
+  after_validation: ${MODE == 'human_in_loop'}
+  on_error: true
+auto_proceed:
+  agent_artifacts: true
+  deliverables: false  # Require approval for product docs
+```
+
+### Task Definition
+
+**Primary Goal**: Generate FOUNDATIONAL product documentation (5 files + ENV-CONFIG)
+
+**CRITICAL**: This creates FRAMEWORK only - Section 4 (Features) will be brief placeholders filled in Step 6
+
+**Prerequisites Check**:
+- Step 3 completed (Product Brief exists)
+- PRD and Brief validated
+- Documentation structure ready
+
+**Success Criteria**:
+- 5 PROD-DOC files created
+- ENV-CONFIG.md created
+- Section 4 has brief feature placeholders
+- All other sections complete
+- Cross-references validated
+
+## Workflow Steps
+
+### Step 4.1: Generate Full Product Docs
+
+**Agent Task**:
+Generate 5 PROD-DOC files from PRD and Brief
+
+**AI Prompt Template**:
+```markdown
+Generate FOUNDATIONAL product documentation (5 files) from PRD and Brief.
+
+CRITICAL: Section 4 (Feature Breakdown) should contain BRIEF placeholders.
+
+Inputs:
+@docs/product/PRD-INPUT.md
+@docs/product/PROD-DOC-00-BRIEF.md
+
+Reference Templates:
+@assets/docs/PDG/PDG-PRODUCT-DOC-TEMPLATE-PART1.md
+@assets/docs/PDG/PDG-PRODUCT-DOC-TEMPLATE-PART2.md
+@assets/docs/RULES/RULES-ARCHITECTURE.md
+@assets/docs/RULES/RULES-NAMING-CONVENTIONS.md
+
+Generate:
+1. PROD-DOC-01-PRODUCT.md (with brief Section 4)
+2. PROD-DOC-02-ARCHITECTURE.md
+3. PROD-DOC-03-TECH.md
+4. PROD-DOC-04-TASKS.md
+5. PROD-DOC-05-CUSTOM-RULES.md
+
+Save to: docs/product/
+```
+
+**Section 4 Format**:
+```markdown
+### Feature 1: {Name}
+**Brief**: {1-2 sentences}
+**User Story**: As a... I want... so that...
+**Stage**: MVP
+**Screens**: {count} screens
+**Entities**: {count} entities
+**Status**: ⏳ Awaiting Step 6 Documentation
+**Reference**: See docs/features/01-{feature}/ (TO BE DOCUMENTED)
+```
+
+**Validation**:
+- All 5 files created
+- Section 4 features are BRIEF
+- Other sections complete
+- Screen format correct: "→ **SCREEN**: {Name}Screen"
+
+**Reference**: See `phase-2-step-4.md` Section "Step 4.1"
+
+---
+
+### Step 4.2: Validation Checklist
+
+**Agent Task**:
+Verify each PROD-DOC file meets requirements
+
+**Checklist**:
+- [ ] PROD-DOC-01: Sections 1-3 complete, Section 4 brief
+- [ ] PROD-DOC-02: Architecture patterns documented
+- [ ] PROD-DOC-03: All dependencies listed
+- [ ] PROD-DOC-04: Development phases clear
+- [ ] PROD-DOC-05: Custom rules defined
+- [ ] Cross-references consistent
+
+**Reference**: See `phase-2-step-4.md` Section "Step 4.2"
+
+---
+
+### Step 4.3: Generate Environment Configuration
+
+**Agent Task**:
+Document all external service credentials and environment setup
+
+**AI Prompt Template**:
+```markdown
+Generate environment configuration documentation.
+
+Inputs:
+@docs/product/PROD-DOC-03-TECH.md
+
+Generate: docs/config/ENV-CONFIG.md
+
+Include:
+1. Required External Services
+2. PocketBase Configuration
+3. Flutter Environment Setup
+4. File Locations
+5. Loading Environment Variables
+6. .gitignore Configuration
+7. Security Checklist
+
+Save to: docs/config/ENV-CONFIG.md
+```
+
+**Validation**:
+- ENV-CONFIG.md exists
+- All services documented
+- .env template created
+- .gitignore updated
+
+**Reference**: See `phase-2-step-4.md` Section "Step 4.3"
+
+---
+
+## Verification
+
+**Script**: `02-validate-prod-docs.sh`
+
+**Expected Results**:
+- ✅ All 5 PROD-DOC files exist
+- ✅ ENV-CONFIG.md exists
+- ✅ Section 4 features are brief (not detailed)
+- ✅ Screen format correct
+- ✅ Cross-references valid
+- ✅ .env template created
+- ✅ .gitignore updated
+
+## Deliverables
+
+**Files Created**:
+- `docs/product/PROD-DOC-01-PRODUCT.md` (with FOUNDATIONAL Section 4)
+- `docs/product/PROD-DOC-02-ARCHITECTURE.md`
+- `docs/product/PROD-DOC-03-TECH.md`
+- `docs/product/PROD-DOC-04-TASKS.md`
+- `docs/product/PROD-DOC-05-CUSTOM-RULES.md`
+- `docs/config/ENV-CONFIG.md`
+- `.env` (template - safe to commit)
+- `.gitignore` (updated)
+
+**Git Commit**:
+```bash
+git add docs/product/ docs/config/ .env .gitignore
+git commit -m "Phase 2 - Step 4: Generate foundational product documentation"
+git push origin main
+```
+
+## Agent Artifacts
+
+**Auto-Generated** (stored in `docs/agent-gen/phase-2-step-4/`):
+- `task_plan.md` - Execution plan
+- `execution_log.md` - Generation log
+- `validation_report.md` - Quality check
+- `step_summary.md` - Completion summary
+- `doc_analysis.md` - Content analysis
+
+## Next Step
+
+Proceed to: **Workflow 5 - Choose Design Path**
+
+## Human Review Required
+
+⚠️ **CHECKPOINT**: Review all PROD-DOC files before proceeding
+- Verify Section 4 features are brief (NOT detailed)
+- Confirm architecture aligns with requirements
+- Validate tech stack choices
+- Approve timeline and tasks
+
+## Troubleshooting
+
+**Issue**: Section 4 too detailed
+- **Fix**: Regenerate with emphasis on "FOUNDATIONAL" format
+
+**Issue**: Missing environment variables
+- **Fix**: Review PROD-DOC-03 and add to ENV-CONFIG
+
+---
+
+**Detailed Instructions**: See `phase-2-step-4.md` (656 lines)
+**Verification**: Run `./02-validate-prod-docs.sh`

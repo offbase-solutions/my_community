@@ -1,7 +1,3 @@
----
-trigger: always_on
----
-
 **Name**: Follow Stacked Architecture  
 **Priority**: CRITICAL
 

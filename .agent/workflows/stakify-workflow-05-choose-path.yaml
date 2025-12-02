@@ -1,0 +1,158 @@
+---
+workflow_id: stakify-phase-3-step-5
+workflow_name: "Choose Your Starting Point (Decision)"
+phase: feature-development
+step: 5
+total_steps: 13
+version: "5.0-agent"
+modes:
+  autonomous: false  # Requires human decision
+  human_in_loop: true
+duration_estimate: "5 minutes"
+detailed_workflow_folder: "WORKFLOWS/DIRECT-APP-WORKFLOW/ANTIGRAVITY-WORKFLOWS/STEPS"
+verification_script_folder: "scripts"
+
+references:
+  detailed_workflow: "phase-3-step-5.md"
+  verification_script: "none"  # Decision point only
+  documentation:
+    - "VLG-README-V2.md"
+
+---
+
+# Stakify Workflow 5: Choose Design Path
+
+## AI Agent Configuration
+
+### Operation Mode
+
+```yaml
+execution_mode: human_in_loop  # Always requires human decision
+checkpoints:
+  before_execution: true
+  decision_required: true
+  on_error: true
+auto_proceed:
+  agent_artifacts: true
+  deliverables: false
+```
+
+### Task Definition
+
+**Primary Goal**: Choose between Path 1 (Generate Stitch Prompts) or Path 2 (Already Have Designs)
+
+**CRITICAL**: This is a **DECISION POINT** - NO files are created
+
+**Prerequisites Check**:
+- Step 4 completed (Product Documentation exists)
+- PROD-DOC-01 Section 4 has feature breakdown
+- Understanding of Google Stitch
+
+**Success Criteria**:
+- Path chosen (1 or 2)
+- User understands implications
+- Ready to proceed to Step 6
+
+## Decision Tree
+
+### Question: Do you already have Google Stitch designs?
+
+**NO** → Choose **Path 1: Generate Stitch Prompts First**
+- Step 6.2 will generate detailed design prompts
+- You'll create designs in Google Stitch using those prompts
+- VLG Pass 1 uses 3 inputs (prompts + screenshot + HTML)
+
+**YES** → Choose **Path 2: Already Have Stitch Designs**
+- Skip Step 6.2 (no prompt generation)
+- Use existing designs directly
+- VLG Pass 1 uses 2 inputs (screenshot + HTML only)
+
+## Path 1: Generate Stitch Prompts First
+
+**When to Use**:
+- ✅ You don't have designs yet
+- ✅ You want AI-generated design specifications
+- ✅ You want design rationale documented
+- ✅ Starting completely fresh
+
+**Process Flow**:
+```
+Step 6.2: AI generates stitch-prompts.md
+    ↓
+You: Use prompts in Google Stitch
+    ↓
+You: Download screenshots + HTML
+    ↓
+Step 7.1: VLG Pass 1 (3 inputs)
+```
+
+**Benefits**:
+- Design rationale documented
+- Specifications consistent
+- Easy to regenerate
+- Maximum AI context
+
+## Path 2: Already Have Stitch Designs
+
+**When to Use**:
+- ✅ Already created designs in Stitch
+- ✅ Have HTML + screenshots ready
+- ✅ Design decisions implicit in visuals
+- ✅ Don't need AI specifications
+
+**Process Flow**:
+```
+Skip Step 6.2
+    ↓
+You: Upload existing designs
+    ↓
+Step 7.1: VLG Pass 1 (2 inputs)
+```
+
+**Trade-offs**:
+- ⚠️ No documented design rationale
+- ⚠️ VLG must infer decisions
+- ⚠️ Harder to regenerate
+- ✅ Faster if designs exist
+
+## Agent Task
+
+**Agent Responsibilities**:
+1. Present decision tree clearly
+2. Explain implications of each path
+3. Record user's choice
+4. Document decision in agent artifacts
+5. Configure next workflow accordingly
+
+**No File Creation** - This is decision only
+
+## Agent Artifacts
+
+**Auto-Generated** (stored in `docs/agent-gen/phase-3-step-5/`):
+- `decision_summary.md` - Path chosen and reasoning
+- `next_steps.md` - Configured workflow based on choice
+- `step_summary.md` - Decision checkpoint
+
+## Next Step
+
+**If Path 1 chosen**: Proceed to **Workflow 6 - Generate Feature Docs** (will include Step 6.2)
+**If Path 2 chosen**: Proceed to **Workflow 6 - Generate Feature Docs** (will skip Step 6.2)
+
+## Human Decision Required
+
+🔴 **REQUIRED**: User must choose Path 1 or Path 2
+
+**Questions to Ask User**:
+1. Do you have Google Stitch designs already created?
+2. Do you want AI to generate detailed design prompts?
+3. Do you want design rationale documented?
+
+**Record Decision**:
+- Path chosen: {1 or 2}
+- Reasoning: {user explanation}
+- Confidence: {High/Medium/Low}
+
+---
+
+**Detailed Instructions**: See `phase-3-step-5.md` (176 lines)
+**No Verification Script** - Decision point only

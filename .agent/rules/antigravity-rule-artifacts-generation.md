@@ -1,7 +1,3 @@
----
-trigger: always_on
----
-
 **Name**: Always Generate Antigravity Artifacts  
 **Priority**: HIGH
 
@@ -14,8 +10,9 @@ For every step, generate Task List, Implementation Plan, and Walkthrough artifac
 3. **Walkthrough** - After completion
 
 **File Naming**:
-- task.md (Antigravity reads this)
-- implementation_plan.md (Antigravity reads this)
-- walkthrough.md (Antigravity reads this)
+Place artifacts in the docs/agent-gen/ directory
+- phase-x-step-y-task.md (Antigravity reads this)
+- phase-x-step-y-implementation_plan.md (Antigravity reads this)
+- phase-x-step-y-walkthrough.md (Antigravity reads this)
 
 **When to Apply**: ALL workflow steps

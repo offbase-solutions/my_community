@@ -1,0 +1,90 @@
+
+---
+workflow_id: stakify-phase-4-step-10
+workflow_name: "VLG Pass 2 - Code Generation"
+phase: code-generation
+step: 10
+total_steps: 13
+version: "5.0-agent"
+modes:
+  autonomous: true
+  human_in_loop: true
+duration_estimate: "30-45 minutes per screen"
+detailed_workflow_folder: "WORKFLOWS/DIRECT-APP-WORKFLOW/ANTIGRAVITY-WORKFLOWS/STEPS"
+verification_script_folder: "scripts"
+
+references:
+  detailed_workflow: "phase-4-step-10.md"
+  # verification_script: "07-validate-views.sh"
+  verification_script: "none"
+  documentation:
+    - "VLG-README-V2.md"
+    - "RULES-VIEWMODEL-PATTERNS-ASYNC.md"
+    - "RULES-ARCHITECTURE.md"
+
+---
+
+# Stakify Workflow 10: VLG Pass 2
+
+## AI Agent Configuration
+
+### Operation Mode
+
+```yaml
+execution_mode: ${MODE}
+checkpoints:
+  before_execution: ${MODE == 'human_in_loop'}
+  after_each_screen: ${MODE == 'human_in_loop'}
+  on_error: true
+auto_proceed:
+  agent_artifacts: true
+  deliverables: ${MODE == 'autonomous'}
+```
+
+### Task Definition
+
+**Primary Goal**: Generate View and ViewModel code for all screens
+
+**Prerequisites**:
+- Step 7 completed (Screen docs exist)
+- Step 9 completed (Services generated)
+
+**Success Criteria**:
+- View files created for all screens
+- ViewModel files created for all screens
+- Proper architecture (ViewModel → Service only)
+- BusinessResult<T> handled correctly
+
+## Workflow Steps
+
+### Step 10.1: Generate View and ViewModel
+
+For EACH screen, generate:
+1. `{screen_name}_view.dart` - Flutter UI with design tokens
+2. `{screen_name}_viewmodel.dart` - Logic with Services
+
+**CRITICAL Architecture**:
+- ViewModel → Service ✅ ALLOWED
+- ViewModel → Repository ❌ FORBIDDEN
+
+**Reference**: `phase-4-step-10.md` Section "Step 10.1"
+
+## Deliverables
+
+**Files Created**:
+- `lib/ui/views/{feature}/{screen}/{screen}_view.dart`
+- `lib/ui/views/{feature}/{screen}/{screen}_viewmodel.dart`
+
+**Git Commit**:
+```bash
+git add lib/ui/views/
+git commit -m "Phase 4 - Step 10: Generate Views and ViewModels (VLG Pass 2)"
+git push origin main
+```
+
+## Next Step
+
+Proceed to: **Workflow 11 - Integration & Configuration**
+
+**Detailed Instructions**: See `phase-4-step-10.md` (254 lines)
+**Verification**: Run `./07-validate-views.sh`

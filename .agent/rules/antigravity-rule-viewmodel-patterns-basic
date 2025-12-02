@@ -1,0 +1,86 @@
+---
+rule_id: stakify-viewmodel-patterns-basic
+rule_name: "ViewModel Patterns (Basic)"
+category: architecture
+priority: high
+version: "1.0.1"
+applies_to: viewmodel_generation
+---
+
+# ViewModel Patterns - Basic (Minimized)
+
+**Full Documentation**: `assets/docs/RULES/RULES-VIEWMODEL-PATTERNS-BASIC.md`
+
+---
+
+## Simple ViewModel Template
+
+```dart
+class HomeViewModel extends BaseViewModel {
+  // Services
+  final _playerService = locator<PlayerService>();
+  
+  // State
+  List<Player> _players = [];
+  List<Player> get players => _players;
+  
+  // Initialize
+  Future<void> initialize() async {
+    await loadPlayers();
+  }
+  
+  // Load Data
+  Future<void> loadPlayers() async {
+    setBusy(true);
+    
+    final result = await _playerService.getAll();
+    
+    result.when(
+      success: (data) {
+        _players = data;
+        notifyListeners();
+      },
+      failure: (error) {
+        setError(error.message);
+      },
+    );
+    
+    setBusy(false);
+  }
+}
+```
+
+---
+
+## Form ViewModel Template
+
+```dart
+class LoginViewModel extends FormViewModel {
+  final _authService = locator<AuthService>();
+  
+  Future<void> submit() async {
+    if (!isFormValid) {
+      setValidationMessage('Please fill all fields');
+      return;
+    }
+    
+    setBusy(true);
+    
+    final result = await _authService.login(
+      email: emailValue!,
+      password: passwordValue!,
+    );
+    
+    result.when(
+      success: (_) => navigateToHome(),
+      failure: (error) => setError(error.message),
+    );
+    
+    setBusy(false);
+  }
+}
+```
+
+---
+
+**For Complete Details**: See `assets/docs/RULES/RULES-VIEWMODEL-PATTERNS-BASIC.md`

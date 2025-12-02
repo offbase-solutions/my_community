@@ -1,7 +1,3 @@
----
-trigger: always_on
----
-
 **Name**: Generate Documentation Before Code  
 **Priority**: HIGH
 

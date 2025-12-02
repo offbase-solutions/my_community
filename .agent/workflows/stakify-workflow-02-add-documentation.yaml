@@ -1,0 +1,204 @@
+---
+workflow_id: stakify-phase-1-step-2
+workflow_name: "Add Stakify Documentation (Git Submodule)"
+phase: setup
+step: 2
+total_steps: 13
+version: "5.0-agent"
+modes:
+  autonomous: true
+  human_in_loop: true
+duration_estimate: "5 minutes"
+detailed_workflow_folder: "WORKFLOWS/DIRECT-APP-WORKFLOW/ANTIGRAVITY-WORKFLOWS/STEPS"
+verification_script_folder: "scripts"
+
+references:
+  detailed_workflow: "phase-1-step-2.md"
+  verification_script: "verify_git_submodule.sh"
+  documentation:
+    - "DIRECT-APP-USAGE-GIT-SUBMODULE-COMMANDS.md"
+    - "STAKIFY-ASSETS-DOCS-STRUCTURE.md"
+
+---
+
+# Stakify Workflow 2: Add Documentation Submodule
+
+## AI Agent Configuration
+
+### Operation Mode
+
+```yaml
+execution_mode: ${MODE}  # autonomous | human_in_loop
+checkpoints:
+  before_execution: ${MODE == 'human_in_loop'}
+  after_validation: ${MODE == 'human_in_loop'}
+  on_error: true
+auto_proceed:
+  agent_artifacts: true
+  deliverables: ${MODE == 'autonomous'}
+```
+
+### Task Definition
+
+**Primary Goal**: Add Stakify documentation as git submodule for access to templates and patterns
+
+**Prerequisites Check**:
+- Phase 1 Step 1 completed (project created)
+- Git repository initialized
+- Internet connection for cloning submodule
+
+**Success Criteria**:
+- Submodule added to `assets/docs/`
+- Documentation files accessible
+- `.gitmodules` configured correctly
+- Submodule committed to repository
+
+## Workflow Steps
+
+### Step 2.1: Add Submodule
+
+**Agent Task**:
+```bash
+git submodule add https://github.com/offbase-solutions/stakify-codegen-docs.git assets/docs
+git submodule update --init --recursive
+```
+
+**Validation**:
+- `assets/docs/` directory exists
+- `.gitmodules` file created
+- Documentation files present
+
+**Reference**: See `phase-1-step-2.md` Section "Step 2.1"
+
+---
+
+### Step 2.2: Verify Documentation Structure
+
+**Agent Task**:
+```bash
+ls assets/docs/
+# Should see: PDG/, VLG/, SLG/, RULES/, RESOURCES/
+```
+
+**Validation**:
+- All major directories present
+- Key files accessible (README.md, etc.)
+
+**Reference**: See `phase-1-step-2.md` Section "Step 2.2"
+
+---
+
+### Step 2.3: Commit Submodule
+
+**Agent Task**:
+```bash
+git add .gitmodules assets/docs
+git commit -m "Add Stakify documentation submodule"
+git push origin main
+```
+
+**Validation**:
+- Changes committed
+- Changes pushed to remote
+
+
+## Step 2.4: Copy Scripts from Git Submodule *.sh files to scripts directory
+
+**Agent Task**:
+```bash
+# Copy all scripts from submodule only the *.sh files
+rsync -av assets/docs/scripts/ scripts/
+```
+
+**Validation**:
+- `scripts/` directory exists
+- All scripts copied
+
+**Reference**: See `phase-1-step-2.md` Section "Step 2.4"
+
+---
+
+## Step 2.5: Copy Direct App Workflow Steps to Gravity Docs .agent/workflows
+
+**Agent Task**:
+```bash
+# Copy all workflow steps from submodule
+rsync -av assets/docs/WORKFLOWS/DIRECT-APP-WORKFLOW/ANTIGRAVITY-WORKFLOWS/ .agent/workflows/
+```
+
+**Validation**:
+- `.agent/workflows/` directory exists if not create it
+- All workflow steps copied
+
+**Reference**: See `phase-1-step-2.md` Section "Step 2.5"
+
+---
+
+## Step 2.6: Copy Antigravity Rules from Git Submodule to Gravity Docs .agent/rules
+
+**Agent Task**:
+```bash
+# Copy all rules from submodule
+rsync -av assets/docs/RULES/ANTIGRAVITY-RULES/ .agent/rules/
+```
+
+**Validation**:
+- `.agent/rules/` directory exists if not create it
+- All rules copied
+
+**Reference**: See `phase-1-step-2.md` Section "Step 2.6"
+
+---
+
+## Verification
+
+**Script**: `verify_git_submodule.sh`
+
+**Expected Results**:
+- ✅ assets/docs/ directory exists
+- ✅ .gitmodules configured
+- ✅ PDG, VLG, SLG, RULES directories present
+- ✅ Submodule committed to repository
+
+## Deliverables
+
+**Files Created**:
+- `.gitmodules` (submodule configuration)
+- `assets/docs/` (documentation submodule)
+  - PDG/ (Product Document Generator docs)
+  - VLG/ (View Layer Generator docs)
+  - SLG/ (Smart Language Generation docs)
+  - RULES/ (Architecture rules)
+  - RESOURCES/ (Core files)
+
+**Git Commit**:
+```bash
+git add .gitmodules assets/docs
+git commit -m "Phase 1 - Step 2: Add Stakify documentation submodule"
+git push origin main
+```
+
+## Agent Artifacts
+
+**Auto-Generated** (stored in `docs/agent-gen/phase-1-step-2/`):
+- `task_plan.md` - Execution plan
+- `execution_log.md` - Step-by-step log
+- `validation_report.md` - Verification results
+- `step_summary.md` - Completion summary
+
+## Next Step
+
+Proceed to: **Workflow 3 - Generate Product Brief**
+
+## Troubleshooting
+
+**Issue**: Submodule clone fails
+- **Fix**: Check internet connection and repository URL
+
+**Issue**: Submodule empty
+- **Fix**: Run `git submodule update --init --recursive`
+
+---
+
+**Detailed Instructions**: See `phase-1-step-2.md` (170 lines)
+**Verification**: Run `./verify_git_submodule.sh`

@@ -1,0 +1,89 @@
+
+---
+workflow_id: stakify-phase-5-step-11
+workflow_name: "Integration & Configuration"
+phase: integration
+step: 11
+total_steps: 13
+version: "5.0-agent"
+modes:
+  autonomous: true
+  human_in_loop: true
+duration_estimate: "45-60 minutes"
+detailed_workflow_folder: "WORKFLOWS/DIRECT-APP-WORKFLOW/ANTIGRAVITY-WORKFLOWS/STEPS"
+verification_script_folder: "scripts"
+
+references:
+  detailed_workflow: "phase-5-step-11.md"
+  verification_script: "verify_integration.sh"
+  documentation:
+    - "RULES-CLI-BOUNDARIES.md"
+    - "RULES-DEPENDENCY-INJECTION.md"
+
+---
+
+# Stakify Workflow 11: Integration
+
+## AI Agent Configuration
+
+### Operation Mode
+
+```yaml
+execution_mode: ${MODE}
+checkpoints:
+  before_execution: ${MODE == 'human_in_loop'}
+  after_registration: true
+  after_testing: true
+  on_error: true
+auto_proceed:
+  agent_artifacts: true
+  deliverables: ${MODE == 'autonomous'}
+```
+
+### Task Definition
+
+**Primary Goal**: Integrate all code, configure routing and DI, test complete feature
+
+**Prerequisites**:
+- Step 10 completed (Views/ViewModels ready)
+- Step 9 completed (Services/Repositories ready)
+
+**Success Criteria**:
+- All screens registered in routing
+- All services/repositories registered in DI
+- App compiles and launches
+- Feature tested end-to-end
+
+## Workflow Steps
+
+### Step 11.1-11.6: Complete Integration
+
+See `phase-5-step-11.md` for detailed instructions:
+- 11.1: Register with Stacked CLI
+- 11.2: Run Code Generation
+- 11.3: Update main.dart
+- 11.4: Test Feature
+- 11.5: Create Integration Notes
+- 11.6: Update Parent Product Document
+
+## Deliverables
+
+**Files Updated/Created**:
+- `lib/app/app.dart` (routes + dependencies)
+- `lib/main.dart` (updated)
+- `docs/integration/FEATURE-01-INTEGRATION.md`
+- `docs/product/PROD-DOC-01-PRODUCT.md` (updated)
+
+**Git Commit**:
+```bash
+git add lib/app/ lib/main.dart docs/integration/ docs/product/
+git commit -m "Phase 5 - Step 11: Complete integration and configuration"
+git push origin main
+```
+
+## Next Step
+
+Proceed to: **Workflow 12 - Track Progress & Iterate**
+
+**Detailed Instructions**: See `phase-5-step-11.md` (422 lines)
+**Verification**: Run `./08-validate-integration.sh`

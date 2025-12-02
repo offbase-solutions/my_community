@@ -1,0 +1,124 @@
+---
+workflow_id: stakify-phase-3-step-7
+workflow_name: "VLG Pass 1 - Screen Documentation"
+phase: feature-development
+step: 7
+total_steps: 13
+version: "5.0-agent"
+modes:
+  autonomous: true
+  human_in_loop: true
+duration_estimate: "45 minutes"
+detailed_workflow_folder: "WORKFLOWS/DIRECT-APP-WORKFLOW/ANTIGRAVITY-WORKFLOWS/STEPS"
+verification_script_folder: "scripts"
+
+references:
+  detailed_workflow: "phase-3-step-7.md"
+  verification_script: "verify_vlg_pass_1.sh"
+  documentation:
+    - "VLG-SCREEN-DOCUMENTATION-TEMPLATE-V2.md"
+    - "VLG-TAILWIND-FLUTTER-CHEAT-SHEET-V2.md"
+    - "RULES-CONSTANTS-MANAGEMENT.md"
+    - "SLG-STEP-00-ENTITY-REQUIREMENTS.md"
+
+---
+
+# Stakify Workflow 7: VLG Pass 1
+
+## AI Agent Configuration
+
+### Operation Mode
+
+```yaml
+execution_mode: ${MODE}
+checkpoints:
+  before_execution: ${MODE == 'human_in_loop'}
+  after_each_screen: ${MODE == 'human_in_loop'}
+  after_aggregation: true
+  on_error: true
+auto_proceed:
+  agent_artifacts: true
+  deliverables: ${MODE == 'autonomous'}
+```
+
+### Task Definition
+
+**Primary Goal**: Generate comprehensive screen documentation (13 sections each) and aggregate entity requirements
+
+**Prerequisites**:
+- Step 6 completed (Feature docs exist)
+- Design files available
+- FEATURE-01-DEFINITION.md Section 4 ready
+
+**Success Criteria**:
+- Screen docs created for all screens
+- Design tokens use Hungarian notation
+- Entity requirements aggregated
+- Section 8 complete for all screens
+
+## Workflow Steps
+
+### Step 7.1: VLG Pass 1 for Each Screen
+
+**For EACH screen in feature**, generate 13-section documentation.
+
+**AI Prompt**: See `phase-3-step-7.md` Section "Step 7.1"
+
+**Sections**:
+1. Screen Identification
+2. Visual Hierarchy
+3. Design Tokens (kc*, kts*, ksp*, krd*)
+4. String Constants (kstr*)
+5. Component Specifications
+6. Stacked Architecture Mapping
+7. User Interactions
+8. Data Operations (CRITICAL FOR SLG)
+9. Navigation & Routing
+10. State Management
+11. Error Handling
+12. Accessibility
+13. AI Code Generation Prompt
+
+**Save to**: `docs/screens/{screenname}.md`
+
+### Step 7.2: Pixel-Perfect Verification
+
+Verify design tokens match Stitch output exactly.
+
+**Reference**: `phase-3-step-7.md` Section "Step 7.2"
+
+### Step 7.3: Aggregate Entities
+
+**Agent Task**: Collect all entity requirements from Section 8 of all screen docs.
+
+**AI Prompt**: See `phase-3-step-7.md` Section "Step 7.3"
+
+**Output**: `docs/features/01-{feature}/ENTITY-REQUIREMENTS-AGGREGATE.md`
+
+## Deliverables
+
+**Files Created**:
+- `docs/screens/*.md` (one per screen, 13 sections each)
+- `docs/features/01-{feature}/ENTITY-REQUIREMENTS-AGGREGATE.md`
+
+**Git Commit**:
+```bash
+git add docs/screens/ docs/features/01-{feature}/ENTITY-REQUIREMENTS-AGGREGATE.md
+git commit -m "Phase 3 - Step 7: VLG Pass 1 complete, entities aggregated"
+git push origin main
+```
+
+## Agent Artifacts
+
+**Auto-Generated**:
+- `task_plan.md`
+- `execution_log.md`
+- `validation_report.md`
+- `entity_analysis.md`
+
+## Next Step
+
+Proceed to: **Workflow 8 - Setup PocketBase with MCP**
+
+**Detailed Instructions**: See `phase-3-step-7.md` (433 lines)
+**Verification**: Run `./04-validate-screen-docs.sh`

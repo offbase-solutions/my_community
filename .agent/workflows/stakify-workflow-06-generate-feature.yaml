@@ -1,0 +1,294 @@
+---
+workflow_id: stakify-phase-3-step-6
+workflow_name: "Generate Detailed Feature Documentation"
+phase: feature-development
+step: 6
+total_steps: 13
+version: "5.0-agent"
+modes:
+  autonomous: true
+  human_in_loop: true
+duration_estimate: "2-3 hours per feature"
+detailed_workflow_folder: "WORKFLOWS/DIRECT-APP-WORKFLOW/ANTIGRAVITY-WORKFLOWS/STEPS"
+verification_script_folder: "scripts"
+
+references:
+  detailed_workflow: "phase-3-step-6.md"
+  verification_script: "verify_feature_docs.sh"
+  documentation:
+    - "PDG-FEATURE-TEMPLATE.md"
+    - "PDG-FEATURE-MODE.md"
+    - "VLG-TAILWIND-FLUTTER-CHEAT-SHEET-V2.md"
+    - "RULES-CONSTANTS-MANAGEMENT.md"
+
+---
+
+# Stakify Workflow 6: Generate Feature Documentation
+
+## AI Agent Configuration
+
+### Operation Mode
+
+```yaml
+execution_mode: ${MODE}  # autonomous | human_in_loop
+checkpoints:
+  before_execution: ${MODE == 'human_in_loop'}
+  after_stitch_prompts: ${PATH == 1}  # Review prompts if Path 1
+  after_feature_docs: true  # Always review 6 feature files
+  after_parent_update: ${MODE == 'human_in_loop'}
+  on_error: true
+auto_proceed:
+  agent_artifacts: true
+  deliverables: ${MODE == 'autonomous'}
+path_dependent:
+  step_6_2: ${PATH == 1}  # Only execute if Path 1 chosen
+```
+
+### Task Definition
+
+**Primary Goal**: Generate complete feature documentation (6 files) for Feature 1
+
+**Prerequisites Check**:
+- Step 5 completed (Path chosen)
+- PROD-DOC-01 Section 4 has feature list
+- Stitch designs available (or will be created)
+
+**Success Criteria**:
+- 6 FEATURE files created
+- Stitch prompts generated (Path 1 only)
+- Designs uploaded to designs/ folder
+- PROD-DOC-01 updated with completion status
+
+## Workflow Steps
+
+### Step 6.1: Choose First Feature
+
+**Agent Task**:
+Select Feature 1 from PROD-DOC-01 Section 4 (usually MVP priority)
+
+**Validation**:
+- Feature identified
+- Feature number and name recorded
+
+**Reference**: See `phase-3-step-6.md` Section "Step 6.1"
+
+---
+
+### Step 6.2: Generate Stitch Prompts [PATH 1 ONLY]
+
+**Condition**: Only execute if Path 1 chosen in Step 5
+
+**Agent Task**:
+Generate detailed design prompts for Google Stitch
+
+**AI Prompt Template**:
+```markdown
+Generate Google Stitch design prompts for Feature 1: {FEATURE_NAME}
+
+Inputs:
+@docs/product/PROD-DOC-01-PRODUCT.md
+@docs/features/01-{feature}/FEATURE-01-DEFINITION.md
+
+Reference:
+@assets/docs/VLG/VLG-TAILWIND-FLUTTER-CHEAT-SHEET-V2.md
+@assets/docs/RULES/RULES-CONSTANTS-MANAGEMENT.md
+
+For each screen, generate comprehensive prompt with:
+- Purpose & User Context
+- Layout Structure
+- Color Palette (all hex codes)
+- Typography (all sizes/weights)
+- Component Specifications
+- Interactive States
+- Accessibility Requirements
+- Responsive Behavior
+
+Save to: docs/features/01-{feature}/stitch-prompts.md
+```
+
+**User Actions Required**:
+1. Copy each prompt
+2. Paste into Google Stitch
+3. Generate design
+4. Download screenshot as `{screenname}-screenshot.png`
+5. Export HTML as `{screenname}-code.html`
+6. Save to `docs/features/01-{feature}/designs/`
+
+**Validation**:
+- stitch-prompts.md created
+- All screens have prompts
+- File naming follows conventions
+- All design files downloaded
+
+**Reference**: See `phase-3-step-6.md` Section "Step 6.2"
+
+---
+
+### Step 6.3: Upload Existing Designs [PATH 2 ONLY]
+
+**Condition**: Only execute if Path 2 chosen in Step 5
+
+**Agent Task**:
+Verify existing design files are properly named and located
+
+**User Actions Required**:
+1. Ensure files in `docs/features/01-{feature}/designs/`
+2. Verify naming: `{screenname}-screenshot.png`, `{screenname}-code.html`
+3. Confirm all screens have both files
+
+**Validation**:
+- All design files present
+- Naming conventions followed
+- Both screenshot + HTML for each screen
+
+**Reference**: See `phase-3-step-6.md` Section "Step 6.3"
+
+---
+
+### Step 6.4: Generate Complete Feature Documentation
+
+**Agent Task**:
+Generate 6 FEATURE documentation files
+
+**AI Prompt Template**:
+```markdown
+Generate complete feature documentation for Feature 1: {FEATURE_NAME}
+
+Inputs:
+@docs/product/PROD-DOC-01-PRODUCT.md (Feature 1 brief)
+@docs/features/01-{feature}/designs/*.html
+@docs/features/01-{feature}/designs/*.png
+[If Path 1] @docs/features/01-{feature}/stitch-prompts.md
+
+Reference Templates:
+@assets/docs/PDG/PDG-FEATURE-TEMPLATE.md
+@assets/docs/RULES/RULES-ARCHITECTURE.md
+
+Generate 6 files:
+1. FEATURE-00-BRIEF.md
+2. FEATURE-01-DEFINITION.md (MOST CRITICAL)
+   - Section 6: Data Model (CRITICAL FOR SLG)
+3. FEATURE-02-ARCHITECTURE.md
+4. FEATURE-03-TECH.md
+5. FEATURE-04-TASKS.md
+6. FEATURE-05-RULES.md
+
+CRITICAL:
+- FEATURE-01-DEFINITION.md Section 4 must be DETAILED
+- Section 6 (Data Model) must be COMPLETE
+- All field specifications required
+- Feeds directly into SLG Step 0
+
+Save to: docs/features/01-{feature}/
+```
+
+**Validation**:
+- All 6 files created
+- FEATURE-01-DEFINITION.md complete
+- Section 6 (Data Model) detailed
+- All entities documented
+
+**Reference**: See `phase-3-step-6.md` Section "Step 6.4"
+
+---
+
+### Step 6.5: Update Parent Product Document
+
+**Agent Task**:
+Update PROD-DOC-01 Section 4 to mark Feature 1 complete
+
+**AI Prompt Template**:
+```markdown
+Update PROD-DOC-01-PRODUCT.md Feature 1 section.
+
+Input:
+@docs/product/PROD-DOC-01-PRODUCT.md
+@docs/features/01-{feature}/FEATURE-01-DEFINITION.md
+
+Change Feature 1 from:
+**Status**: ⏳ Awaiting Step 6 Documentation
+
+To:
+**Status**: ✅ Documentation Complete
+**Detailed Documentation**: [list all 6 files]
+**Next**: VLG Pass 1
+
+Save updated PROD-DOC-01-PRODUCT.md
+```
+
+**Validation**:
+- Feature 1 marked complete
+- References to all 6 files added
+- Status updated
+
+**Reference**: See `phase-3-step-6.md` Section "Step 6.5"
+
+---
+
+## Verification
+
+**Script**: `03-validate-feature-docs.sh`
+
+**Expected Results**:
+- ✅ All 6 FEATURE files exist
+- ✅ [Path 1] stitch-prompts.md exists
+- ✅ All design files present
+- ✅ FEATURE-01-DEFINITION.md Section 6 complete
+- ✅ PROD-DOC-01 updated
+- ✅ All entities documented
+
+## Deliverables
+
+**Files Created**:
+- `docs/features/01-{feature}/FEATURE-00-BRIEF.md`
+- `docs/features/01-{feature}/FEATURE-01-DEFINITION.md`
+- `docs/features/01-{feature}/FEATURE-02-ARCHITECTURE.md`
+- `docs/features/01-{feature}/FEATURE-03-TECH.md`
+- `docs/features/01-{feature}/FEATURE-04-TASKS.md`
+- `docs/features/01-{feature}/FEATURE-05-RULES.md`
+- `docs/features/01-{feature}/stitch-prompts.md` [Path 1 only]
+- `docs/features/01-{feature}/designs/*.png`
+- `docs/features/01-{feature}/designs/*.html`
+- `docs/product/PROD-DOC-01-PRODUCT.md` (updated)
+
+**Git Commit**:
+```bash
+git add docs/features/01-{feature}/ docs/product/PROD-DOC-01-PRODUCT.md
+git commit -m "Phase 3 - Step 6: Complete Feature 1 detailed documentation"
+git push origin main
+```
+
+## Agent Artifacts
+
+**Auto-Generated** (stored in `docs/agent-gen/phase-3-step-6/`):
+- `task_plan.md` - Execution plan
+- `execution_log.md` - Generation log
+- `validation_report.md` - Quality check
+- `step_summary.md` - Completion summary
+- `feature_analysis.md` - Content analysis
+- `design_inventory.md` - Design files tracking
+
+## Next Step
+
+Proceed to: **Workflow 7 - VLG Pass 1 (Screen Documentation)**
+
+## Human Review Required
+
+⚠️ **CHECKPOINT**: Review feature documentation before proceeding
+- Verify FEATURE-01-DEFINITION.md Section 6 is complete
+- Confirm all screens documented in Section 4
+- Validate entity relationships
+- Approve field specifications
+
+## Troubleshooting
+
+**Issue**: Design files missing
+- **Fix**: Verify file naming and location
+
+**Issue**: Section 6 incomplete
+- **Fix**: Regenerate with emphasis on data model
+
+---
+
+**Detailed Instructions**: See `phase-3-step-6.md` (504 lines)
+**Verification**: Run `./03-validate-feature-docs.sh`

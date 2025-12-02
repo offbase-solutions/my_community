@@ -1,0 +1,164 @@
+---
+workflow_id: stakify-phase-1-step-1
+workflow_name: "Create Flutter Project with Stacked CLI"
+phase: setup
+step: 1
+total_steps: 13
+version: "5.0-agent"
+modes:
+  autonomous: true
+  human_in_loop: true
+duration_estimate: "10 minutes"
+detailed_workflow_folder: "WORKFLOWS/DIRECT-APP-WORKFLOW/ANTIGRAVITY-WORKFLOWS/STEPS"
+verification_script_folder: "scripts"
+
+
+references:
+  detailed_workflow: "phase-1-step-1.md"
+  verification_script: "verify_environment.sh"
+  documentation:
+    - "RULES-CLI-BOUNDARIES.md"
+    - "RULES-PROJECT-STRUCTURE.md"
+
+---
+
+# Stakify Workflow 1: Create Flutter Project
+
+## AI Agent Configuration
+
+### Operation Mode
+
+```yaml
+execution_mode: ${MODE}  # autonomous | human_in_loop
+checkpoints:
+  before_execution: ${MODE == 'human_in_loop'}
+  after_validation: ${MODE == 'human_in_loop'}
+  on_error: true
+auto_proceed:
+  agent_artifacts: true
+  deliverables: ${MODE == 'autonomous'}
+```
+
+### Task Definition
+
+**Primary Goal**: Create new Flutter project using Stacked CLI with proper architecture setup
+
+**Prerequisites Check**:
+- Flutter SDK installed (latest stable)
+- Dart installed  
+- Stacked CLI installed globally
+- Git installed
+- GitHub/GitLab account created
+- IDE ready (VSCode/Cursor/Google IDX)
+
+**Success Criteria**:
+- Project created with Stacked architecture
+- Git repository initialized and connected to remote
+- Project structure verified
+- All dependencies installed
+
+## Workflow Steps
+
+### Step 1.1: Create Project ()
+
+**Agent Task**:
+```bash
+stacked create app {project_name}
+cd {project_name}
+```
+
+**Validation**:
+- Verify `lib/app/app.dart` exists with @StackedApp annotation
+- Verify navigation setup present
+- Verify DI setup present
+
+**Reference**: See `phase-1-step-1.md` Section "Step 1.1"
+
+---
+
+### Step 1.2: Initialize Local Git Repository
+
+**Agent Task**:
+```bash
+git init
+git add .
+git commit -m "Initial commit from Stacked CLI"
+```
+
+**Validation**:
+- `.git` directory exists
+- Initial commit created
+
+**Reference**: See `phase-1-step-1.md` Section "Step 1.2"
+
+---
+
+### Step 1.3: Connect to Remote Repository
+
+**Agent Task**:
+```bash
+# User provides repository URL
+git remote add origin {repository_url}
+git remote -v
+git branch -M main
+git push -u origin main
+```
+
+**Validation**:
+- Remote origin configured
+- Code pushed to remote
+- Branch tracking set up
+
+**Reference**: See `phase-1-step-1.md` Section "Step 1.3"
+
+---
+
+## Verification
+
+**Script**: `verify_environment.sh`
+
+**Expected Results**:
+- ✅ Stacked project structure verified
+- ✅ lib/app/app.dart exists
+- ✅ Git repository initialized
+- ✅ Remote origin connected
+
+## Deliverables
+
+**Files Created**:
+- Project root with Stacked structure
+- `pubspec.yaml` with dependencies
+- `lib/app/app.dart` with routing
+- `.git/` repository
+
+**Git Commit**:
+```bash
+git add .
+git commit -m "Phase 1 - Step 1: Create Flutter project with Stacked CLI"
+git push origin main
+```
+
+## Agent Artifacts
+
+**Auto-Generated** (stored in `docs/agent-gen/phase-1-step-1/`):
+- `task_plan.md` - Execution plan
+- `execution_log.md` - Step-by-step log
+- `validation_report.md` - Verification results
+- `step_summary.md` - Completion summary
+
+## Next Step
+
+Proceed to: **Workflow 2 - Add Stakify Documentation**
+
+## Troubleshooting
+
+**Issue**: Stacked CLI not found
+- **Fix**: `dart pub global activate stacked_cli`
+
+**Issue**: Git remote push fails
+- **Fix**: Verify repository URL and authentication
+
+---
+
+**Detailed Instructions**: See `phase-1-step-1.md` (144 lines)
+**Verification**: Run `./verify_environment.sh`

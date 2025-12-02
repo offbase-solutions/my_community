@@ -1,0 +1,192 @@
+---
+workflow_id: stakify-phase-2-step-3
+workflow_name: "Generate Product Brief from PRD"
+phase: documentation
+step: 3
+total_steps: 13
+version: "5.0-agent"
+modes:
+  autonomous: true
+  human_in_loop: true
+duration_estimate: "30 minutes"
+detailed_workflow_folder: "WORKFLOWS/DIRECT-APP-WORKFLOW/ANTIGRAVITY-WORKFLOWS/STEPS"
+verification_script_folder: "scripts"
+
+references:
+  detailed_workflow: "phase-2-step-3.md"
+  verification_script: "01-product-brief-generation.sh"
+  documentation:
+    - "PDG-AI-AGENT-TASK.md"
+    - "PDG-PRODUCT-DOC-TEMPLATE-PART1.md"
+
+---
+
+# Stakify Workflow 3: Generate Product Brief
+
+## AI Agent Configuration
+
+### Operation Mode
+
+```yaml
+execution_mode: ${MODE}  # autonomous | human_in_loop
+checkpoints:
+  before_execution: ${MODE == 'human_in_loop'}
+  after_generation: true  # Always review product brief
+  after_validation: ${MODE == 'human_in_loop'}
+  on_error: true
+auto_proceed:
+  agent_artifacts: true
+  deliverables: false  # Always require human review for product brief
+```
+
+### Task Definition
+
+**Primary Goal**: Transform small PRD into comprehensive Product Brief (PROD-DOC-00-BRIEF.md)
+
+**Prerequisites Check**:
+- Phase 1 completed (project and docs ready)
+- Documentation structure created (`docs/product/`)
+- IDE AI assistant ready
+
+**Success Criteria**:
+- PROD-DOC-00-BRIEF.md created (2-3 pages)
+- All required sections complete
+- Clear problem statement
+- Target users defined
+- Core features identified
+
+## Workflow Steps
+
+### Step 3.1: Prepare Small PRD
+
+**Agent Task**:
+Create `docs/product/PRD-INPUT.md` with structure:
+- Problem Statement (2-3 sentences)
+- Target Users (2-3 sentences)
+- Core Features (3-7 bullet points)
+- Success Metrics (2-4 measurements)
+
+**Validation**:
+- PRD-INPUT.md exists
+- All sections present
+- Content is clear and concise
+
+**Reference**: See `phase-2-step-3.md` Section "Step 3.1"
+
+---
+
+### Step 3.2: Generate Product Brief
+
+**Agent Task**:
+Use IDE AI prompt to generate PROD-DOC-00-BRIEF.md
+
+**AI Prompt Template**:
+```markdown
+Generate comprehensive Product Brief from PRD.
+
+Input:
+@docs/product/PRD-INPUT.md
+
+Reference:
+@assets/docs/PDG/PDG-AI-AGENT-TASK.md
+@assets/docs/PDG/PDG-PRODUCT-DOC-TEMPLATE-PART1.md
+
+Generate PROD-DOC-00-BRIEF.md with:
+1. Problem & Opportunity
+2. Target Users & Personas  
+3. Product Vision
+4. Core Value Propositions
+5. Feature Overview (high-level)
+6. Success Metrics
+7. Constraints & Assumptions
+
+Keep focused: 2-3 pages max
+Expand on PRD, don't just copy
+
+Save to: docs/product/PROD-DOC-00-BRIEF.md
+```
+
+**Validation**:
+- File created
+- All 7 sections present
+- Appropriate length (2-3 pages)
+- Expands on PRD content
+
+**Reference**: See `phase-2-step-3.md` Section "Step 3.2"
+
+---
+
+### Step 3.3: Validation
+
+**Agent Task**:
+Run validation script and verify content quality
+
+**Validation Checklist**:
+- [ ] Problem clearly stated
+- [ ] Users well-defined
+- [ ] Vision is compelling
+- [ ] Features are prioritized
+- [ ] Metrics are measurable
+- [ ] Constraints acknowledged
+
+**Reference**: See `phase-2-step-3.md` Section "Step 3.3"
+
+---
+
+## Verification
+
+**Script**: `01-product-brief-generation.sh`
+
+**Expected Results**:
+- ✅ PRD-INPUT.md exists
+- ✅ PROD-DOC-00-BRIEF.md exists
+- ✅ All required sections present
+- ✅ Length appropriate (600-1000 lines)
+- ✅ Content quality verified
+
+## Deliverables
+
+**Files Created**:
+- `docs/product/PRD-INPUT.md` (small PRD input)
+- `docs/product/PROD-DOC-00-BRIEF.md` (comprehensive brief)
+
+**Git Commit**:
+```bash
+git add docs/product/
+git commit -m "Phase 2 - Step 3: Generate product brief from PRD"
+git push origin main
+```
+
+## Agent Artifacts
+
+**Auto-Generated** (stored in `docs/agent-gen/phase-2-step-3/`):
+- `task_plan.md` - Execution plan
+- `execution_log.md` - Generation log
+- `validation_report.md` - Quality check results
+- `step_summary.md` - Completion summary
+- `brief_analysis.md` - Content analysis
+
+## Next Step
+
+Proceed to: **Workflow 4 - Generate Product Documentation**
+
+## Human Review Required
+
+⚠️ **CHECKPOINT**: Review PROD-DOC-00-BRIEF.md before proceeding
+- Verify problem statement accuracy
+- Confirm target users
+- Validate feature priorities
+- Approve vision and metrics
+
+## Troubleshooting
+
+**Issue**: Brief too generic
+- **Fix**: Add more specific details from PRD
+
+**Issue**: Missing sections
+- **Fix**: Regenerate with explicit section requirements
+
+---
+
+**Detailed Instructions**: See `phase-2-step-3.md` (218 lines)
+**Verification**: Run `./01-product-brief-generation.sh`

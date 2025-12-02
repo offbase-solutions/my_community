@@ -1,0 +1,95 @@
+
+workflow_id: stakify-phase-5-step-13
+workflow_name: "Update Documentation Submodule"
+phase: integration
+step: 13
+total_steps: 13
+version: "5.0-agent"
+modes:
+  autonomous: true
+  human_in_loop: true
+duration_estimate: "10 minutes"
+detailed_workflow_folder: "WORKFLOWS/DIRECT-APP-WORKFLOW/ANTIGRAVITY-WORKFLOWS/STEPS"
+verification_script_folder: "scripts"
+
+references:
+  detailed_workflow: "phase-5-step-13.md"
+  verification_script: "none"
+  documentation:
+    - "DIRECT-APP-USAGE-GIT-SUBMODULE-COMMANDS.md"
+
+---
+
+# Stakify Workflow 13: Update Documentation
+
+## AI Agent Configuration
+
+### Operation Mode
+
+```yaml
+execution_mode: ${MODE}
+checkpoints:
+  before_execution: ${MODE == 'human_in_loop'}
+  after_update: true
+  after_testing: true
+  on_error: true
+auto_proceed:
+  agent_artifacts: true
+  deliverables: ${MODE == 'autonomous'}
+```
+
+### Task Definition
+
+**Primary Goal**: Update Stakify documentation submodule to latest version
+
+**Prerequisites**:
+- Project using docs as submodule
+- Git configured
+
+**Success Criteria**:
+- Submodule updated to latest
+- Tests pass after update
+- Changes committed
+
+## Workflow Steps
+
+### Step 13.1-13.3: Update Process
+
+See `phase-5-step-13.md` for detailed instructions:
+- 13.1: Update Submodule
+- 13.2: Test After Update
+- 13.3: Commit Update
+
+```bash
+git submodule update --remote assets/docs
+git diff assets/docs
+flutter analyze
+git add assets/docs
+git commit -m "Update stakify-codegen-docs to latest"
+git push origin main
+```
+
+## Deliverables
+
+**Files Updated**:
+- `assets/docs/` (submodule reference)
+
+**Git Commit**:
+```bash
+git add assets/docs
+git commit -m "Phase 5 - Step 13: Update documentation submodule"
+git push origin main
+```
+
+## Completion
+
+🎉 **Congratulations!** You've completed all 13 Stakify workflows!
+
+**You now have**:
+- Complete Flutter app with Stacked architecture
+- Production-ready code
+- Comprehensive documentation
+- 2-4x faster development
+
+**Detailed Instructions**: See `phase-5-step-13.md` (360 lines)
+

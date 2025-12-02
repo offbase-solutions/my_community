@@ -1,0 +1,90 @@
+
+---
+workflow_id: stakify-phase-4-step-8
+workflow_name: "Setup PocketBase with MCP"
+phase: code-generation
+step: 8
+total_steps: 13
+version: "5.0-agent"
+modes:
+  autonomous: true
+  human_in_loop: true
+duration_estimate: "20-30 minutes"
+detailed_workflow_folder: "WORKFLOWS/DIRECT-APP-WORKFLOW/ANTIGRAVITY-WORKFLOWS/STEPS"
+verification_script_folder: "scripts"
+
+references:
+  detailed_workflow: "phase-4-step-8.md"
+  verification_script: "verify_pocketbase.sh"
+  documentation:
+    - "SLG-POCKETBASE-LOCAL-SETUP.md"
+    - "SLG-STEP-MINUS-2-POCKETBASE-SETUP.md"
+
+---
+
+# Stakify Workflow 8: Setup PocketBase
+
+## AI Agent Configuration
+
+###Operation Mode
+
+```yaml
+execution_mode: ${MODE}
+checkpoints:
+  before_execution: ${MODE == 'human_in_loop'}
+  after_pocketbase_start: true
+  after_mcp_config: true
+  on_error: true
+auto_proceed:
+  agent_artifacts: true
+  deliverables: ${MODE == 'autonomous'}
+```
+
+### Task Definition
+
+**Primary Goal**: Setup PocketBase backend and configure MCP integration
+
+**Prerequisites**:
+- Node.js installed
+- PocketBase downloaded
+
+**Success Criteria**:
+- PocketBase running on port 8090
+- MCP server installed and configured
+- Admin account created
+- Configuration files committed
+
+## Workflow Steps
+
+### Step 8.1-8.5: Complete Setup
+
+See `phase-4-step-8.md` for detailed instructions:
+- 8.1: Install and Start PocketBase
+- 8.2: Configure pocketbase.yaml
+- 8.3: Install MCP Server
+- 8.4: Configure MCP in IDE
+- 8.5: Verify MCP Connection
+
+## Deliverables
+
+**Files Created**:
+- `db/pocketbase` (binary)
+- `pocketbase.yaml`
+- `.claude/mcp-servers.json`
+- `.gitignore` (updated)
+
+**Git Commit**:
+```bash
+git add pocketbase.yaml .gitignore .claude/
+git commit -m "Phase 4 - Step 8: Setup PocketBase with MCP"
+git push origin main
+```
+
+## Next Step
+
+Proceed to: **Workflow 9 - Generate Data Layer (SLG)**
+
+**Detailed Instructions**: See `phase-4-step-8.md` (218 lines)
+**Verification**: Run `./05-verify-pocketbase-setup.sh`
+
+

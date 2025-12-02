@@ -1,0 +1,126 @@
+
+---
+workflow_id: stakify-phase-4-step-9
+workflow_name: "Generate Data Layer (SLG)"
+phase: code-generation
+step: 9
+total_steps: 13
+version: "5.0-agent"
+modes:
+  autonomous: true
+  human_in_loop: true
+duration_estimate: "2-3 hours per entity"
+detailed_workflow_folder: "WORKFLOWS/DIRECT-APP-WORKFLOW/ANTIGRAVITY-WORKFLOWS/STEPS"
+verification_script_folder: "scripts"
+
+references:
+  detailed_workflow: "phase-4-step-9.md"
+  verification_script: "verify_slg_output.sh"
+  documentation:
+    - "SLG-STEP-MINUS-3-DATA-DICTIONARY.md"
+    - "SLG-STEP-00-ENTITY-REQUIREMENTS.md"
+    - "SLG-STEP-11-CODE-GENERATION.md"
+
+---
+
+# Stakify Workflow 9: Generate Data Layer
+
+## AI Agent Configuration
+
+### Operation Mode
+
+```yaml
+execution_mode: ${MODE}
+checkpoints:
+  before_execution: ${MODE == 'human_in_loop'}
+  after_data_dictionary: true
+  after_pocketbase_collection: true
+  after_code_generation: true
+  on_error: true
+auto_proceed:
+  agent_artifacts: true
+  deliverables: ${MODE == 'autonomous'}
+```
+
+### Task Definition
+
+**Primary Goal**: Generate complete data layer (Models, Repositories, Services) for all entities
+
+**Prerequisites**:
+- Step 7 completed (Entity requirements aggregated)
+- Step 8 completed (PocketBase with MCP ready)
+
+**Success Criteria**:
+- Data dictionaries created
+- PocketBase collections created via MCP
+- DTOs generated
+- All 10 SLG documentation steps complete
+- Dart code generated (Step 11)
+
+## Workflow Steps
+
+### Step 9.1: Data Dictionary (SLG Step -3)
+
+For EACH entity, generate comprehensive data dictionary.
+
+**Reference**: `phase-4-step-9.md` Section "Step 9.1"
+
+### Step 9.2: Create PocketBase Collection (SLG Step -2)
+
+Use MCP to create collections with fields, indexes, and rules.
+
+**Reference**: `phase-4-step-9.md` Section "Step 9.2"
+
+### Step 9.3: Generate DTOs (SLG Step -1)
+
+```bash
+flutter pub add pocketbase_plus --git-url=https://github.com/offbase-solutions/pocketbase_plus
+dart run pocketbase_plus:main
+```
+
+### Step 9.4: SLG Steps 0-11
+
+Generate documentation for Steps 1-10, then code in Step 11:
+- Projections, Mixins, Model, Extensions
+- Specifications, Repository Interface/Implementation
+- Service, Barrel File
+- CODE GENERATION (actual Dart files)
+
+**Reference**: `phase-4-step-9.md` Section "Step 9.4"
+
+### Step 9.5: Copy service_core.dart
+
+```bash
+cp assets/docs/RESOURCES/core-files/service_core.dart lib/core/service_core.dart
+```
+
+### Step 9.6: Run Build Runner
+
+```bash
+flutter pub run build_runner build --delete-conflicting-outputs
+flutter analyze
+```
+
+## Deliverables
+
+**Files Created**:
+- `docs/entities/{entity}/migrations/data_dictionary.md`
+- `lib/data/pb/{entity}_data.dart`
+- `lib/data/models/{entity}/*.dart`
+- `lib/data/repositories/{entity}/*.dart`
+- `lib/services/{entity}_service.dart`
+- `lib/core/service_core.dart`
+
+**Git Commit**:
+```bash
+git add docs/entities/ lib/data/ lib/services/ lib/core/
+git commit -m "Phase 4 - Step 9: Complete data layer generation (SLG)"
+git push origin main
+```
+
+## Next Step
+
+Proceed to: **Workflow 10 - VLG Pass 2 (Code Generation)**
+
+**Detailed Instructions**: See `phase-4-step-9.md` (398 lines)
+**Verification**: Run `./06-validate-data-layer.sh`

@@ -1,7 +1,3 @@
----
-trigger: always_on
----
-
 **Name**: Use Singular Entity Names  
 **Priority**: CRITICAL
 
